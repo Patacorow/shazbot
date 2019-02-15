@@ -10,27 +10,30 @@ namespace Shazbot
     {
         private static IntPtr _hookId = IntPtr.Zero;
 
+        private InterceptKeys.LowLevelKeyboardProc _keyProcDelegate;
+
         public bool PreventDefault;
 
         public KeyboardListener()
         {
             PreventDefault = false;
-            _hookId = InterceptKeys.SetHook(HookCallback);
+            _keyProcDelegate = HookCallback;
+            _hookId = InterceptKeys.SetHook(_keyProcDelegate);
         }
 
         [MethodImpl(MethodImplOptions.NoInlining)]
         private IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            try
-            {
+            //try
+            //{
                 return HookCallbackInner(nCode, wParam, lParam);
-            }
-            catch
-            {
-                Console.WriteLine("There was some error somewhere...");
-            }
-            return InterceptKeys.CallNextHookEx(_hookId, nCode, wParam, lParam);
+            //}
+            //catch
+            //{
+            //    Console.WriteLine("There was some error somewhere...");
+            //}
+            //return InterceptKeys.CallNextHookEx(_hookId, nCode, wParam, lParam);
         }
 
         private IntPtr HookCallbackInner(int nCode, IntPtr wParam, IntPtr lParam)
