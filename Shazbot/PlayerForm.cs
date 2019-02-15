@@ -9,6 +9,7 @@ using System.Windows.Input;
 
 namespace Shazbot
 {
+    // TODO: Refactor & doc
     public partial class PlayerForm : Form
     {
         private const int MIN_HEIGHT = 38;

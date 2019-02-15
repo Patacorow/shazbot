@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 namespace Shazbot
 {
+    // TODO: Refactor & doc
     public partial class MainForm : Form
     {
         private readonly ShazbotController _controller;
