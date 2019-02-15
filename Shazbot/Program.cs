@@ -15,19 +15,9 @@ namespace Shazbot
         [STAThread]
         static void Main()
         {
-            var a = Utils.GetInputDevices();
-            var b = Utils.GetOutputDevices();
-
-            var controller = new ShazbotController();
-            controller.PrimaryOutputDevice = b.FirstOrDefault(d => d.Name.Contains("Dell"));
-            controller.AdditionalInputDevice = a.FirstOrDefault(d => d.Name.Contains("PnP"));
-
-            controller.Start();
-
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
-            controller.Stop();
+            Application.Run(new MainForm(new ShazbotController()));
         }
     }
 }
