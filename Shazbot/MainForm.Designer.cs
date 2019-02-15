@@ -31,25 +31,25 @@
             this.audioPlayerTabs = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.comboPrimaryOutputDevice = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.listBoxAdditionalOutputDevices = new System.Windows.Forms.CheckedListBox();
             this.checkUseAdditionalInputDevice = new System.Windows.Forms.CheckBox();
             this.label5 = new System.Windows.Forms.Label();
             this.comboAdditionalInputDevice = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.listBoxAdditionalOutputDevices = new System.Windows.Forms.CheckedListBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.comboPrimaryOutputDevice = new System.Windows.Forms.ComboBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.flowLayoutPanel2 = new System.Windows.Forms.FlowLayoutPanel();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.checkAutoKeyHold = new System.Windows.Forms.CheckBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.audioPlayerTabs.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage3.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -85,17 +85,6 @@
             this.tabPage2.Text = "Input/Output";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
-            // 
-            this.tabPage3.Controls.Add(this.flowLayoutPanel2);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(527, 260);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "Extra";
-            this.tabPage3.UseVisualStyleBackColor = true;
-            // 
             // flowLayoutPanel1
             // 
             this.flowLayoutPanel1.Controls.Add(this.label1);
@@ -113,6 +102,66 @@
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
             this.flowLayoutPanel1.Size = new System.Drawing.Size(521, 254);
             this.flowLayoutPanel1.TabIndex = 11;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label1.Location = new System.Drawing.Point(3, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(130, 13);
+            this.label1.TabIndex = 12;
+            this.label1.Text = "Primary output device";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(3, 13);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(418, 13);
+            this.label2.TabIndex = 14;
+            this.label2.Text = "This is where sounds, as well as input from the additional input device, will be " +
+    "played to.";
+            // 
+            // comboPrimaryOutputDevice
+            // 
+            this.comboPrimaryOutputDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPrimaryOutputDevice.FormattingEnabled = true;
+            this.comboPrimaryOutputDevice.Location = new System.Drawing.Point(3, 29);
+            this.comboPrimaryOutputDevice.MaxLength = 200;
+            this.comboPrimaryOutputDevice.Name = "comboPrimaryOutputDevice";
+            this.comboPrimaryOutputDevice.Size = new System.Drawing.Size(344, 21);
+            this.comboPrimaryOutputDevice.TabIndex = 11;
+            this.comboPrimaryOutputDevice.SelectedIndexChanged += new System.EventHandler(this.comboPrimaryOutputDevice_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label3.Location = new System.Drawing.Point(3, 53);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(145, 13);
+            this.label3.TabIndex = 15;
+            this.label3.Text = "Additional output device";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(3, 66);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(362, 13);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "Sounds (but not the additional input device) will be played to these devices.";
+            // 
+            // listBoxAdditionalOutputDevices
+            // 
+            this.listBoxAdditionalOutputDevices.CheckOnClick = true;
+            this.listBoxAdditionalOutputDevices.FormattingEnabled = true;
+            this.listBoxAdditionalOutputDevices.Location = new System.Drawing.Point(3, 82);
+            this.listBoxAdditionalOutputDevices.Name = "listBoxAdditionalOutputDevices";
+            this.listBoxAdditionalOutputDevices.Size = new System.Drawing.Size(344, 94);
+            this.listBoxAdditionalOutputDevices.TabIndex = 13;
+            this.listBoxAdditionalOutputDevices.ItemCheck += new System.Windows.Forms.ItemCheckEventHandler(this.listBoxAdditionalOutputDevices_ItemCheck);
             // 
             // checkUseAdditionalInputDevice
             // 
@@ -145,62 +194,16 @@
             this.comboAdditionalInputDevice.Size = new System.Drawing.Size(344, 21);
             this.comboAdditionalInputDevice.TabIndex = 17;
             // 
-            // label4
+            // tabPage3
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(3, 66);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(362, 13);
-            this.label4.TabIndex = 16;
-            this.label4.Text = "Sounds (but not the additional input device) will be played to these devices.";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label3.Location = new System.Drawing.Point(3, 53);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(145, 13);
-            this.label3.TabIndex = 15;
-            this.label3.Text = "Additional output device";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(3, 13);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(418, 13);
-            this.label2.TabIndex = 14;
-            this.label2.Text = "This is where sounds, as well as input from the additional input device, will be " +
-    "played to.";
-            // 
-            // listBoxAdditionalOutputDevices
-            // 
-            this.listBoxAdditionalOutputDevices.FormattingEnabled = true;
-            this.listBoxAdditionalOutputDevices.Location = new System.Drawing.Point(3, 82);
-            this.listBoxAdditionalOutputDevices.Name = "listBoxAdditionalOutputDevices";
-            this.listBoxAdditionalOutputDevices.Size = new System.Drawing.Size(344, 94);
-            this.listBoxAdditionalOutputDevices.TabIndex = 13;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label1.Location = new System.Drawing.Point(3, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(130, 13);
-            this.label1.TabIndex = 12;
-            this.label1.Text = "Primary output device";
-            // 
-            // comboPrimaryOutputDevice
-            // 
-            this.comboPrimaryOutputDevice.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboPrimaryOutputDevice.FormattingEnabled = true;
-            this.comboPrimaryOutputDevice.Location = new System.Drawing.Point(3, 29);
-            this.comboPrimaryOutputDevice.MaxLength = 200;
-            this.comboPrimaryOutputDevice.Name = "comboPrimaryOutputDevice";
-            this.comboPrimaryOutputDevice.Size = new System.Drawing.Size(344, 21);
-            this.comboPrimaryOutputDevice.TabIndex = 11;
+            this.tabPage3.Controls.Add(this.flowLayoutPanel2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(527, 260);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "Extra";
+            this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // flowLayoutPanel2
             // 
@@ -214,25 +217,6 @@
             this.flowLayoutPanel2.Size = new System.Drawing.Size(521, 254);
             this.flowLayoutPanel2.TabIndex = 2;
             // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(3, 33);
-            this.comboBox1.MaxLength = 200;
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(344, 21);
-            this.comboBox1.TabIndex = 20;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 17);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(292, 13);
-            this.label6.TabIndex = 21;
-            this.label6.Text = "If enabled, this key will be held as long as a sound is playing.";
-            // 
             // checkAutoKeyHold
             // 
             this.checkAutoKeyHold.AutoSize = true;
@@ -244,6 +228,25 @@
             this.checkAutoKeyHold.TabIndex = 22;
             this.checkAutoKeyHold.Text = "Auto key hold";
             this.checkAutoKeyHold.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 17);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(292, 13);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "If enabled, this key will be held as long as a sound is playing.";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Location = new System.Drawing.Point(3, 33);
+            this.comboBox1.MaxLength = 200;
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(344, 21);
+            this.comboBox1.TabIndex = 20;
             // 
             // MainForm
             // 
@@ -258,9 +261,9 @@
             this.Text = "MainForm";
             this.audioPlayerTabs.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
