@@ -50,6 +50,8 @@
     <Compile Include="FileEntry.cs" />
     <Compile Include="FolderEntry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SoundbankGenerator.cs" />
+    <Compile Include="SoundbankSerializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

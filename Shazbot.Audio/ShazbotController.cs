@@ -68,12 +68,12 @@ namespace Shazbot.Audio
             _isPlaying = true;
 
             WaveStream waveReader = new WaveFileReader(filePath);
-
             _cachedOutputDevice = HookOutputDevice(PrimaryOutputDevice.Id, waveReader);
             _cachedOutputDevice.PlaybackStopped += _cachedOutputDevice_PlaybackStopped;
             foreach (AudioDeviceInfo info in AdditionalOutputDevices)
             {
-                _cachedAdditionalOutputDevices.Add(HookOutputDevice(info.Id, waveReader));
+                WaveStream additionalWaveReader = new WaveFileReader(filePath);
+                _cachedAdditionalOutputDevices.Add(HookOutputDevice(info.Id, additionalWaveReader));
             }
         }
 
@@ -105,7 +105,7 @@ namespace Shazbot.Audio
 
         private WaveOut HookOutputDevice(int deviceId, IWaveProvider provider)
         {
-            var waveOut = new WaveOut { DeviceNumber = deviceId };
+            var waveOut = new WaveOut { DeviceNumber = deviceId, DesiredLatency = 100 };
             waveOut.Init(provider);
             waveOut.Play();
             return waveOut;

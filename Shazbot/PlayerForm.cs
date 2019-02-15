@@ -20,31 +20,29 @@ namespace Shazbot
         private readonly KeyboardListener _kListener;
         private readonly Key _openKey;
         private readonly FolderEntry _rootEntry;
-
-        private string _title;
+        private readonly string _rootDirectory;
         private bool _open;
         private FolderEntry _currentFolder;
         private string _currentPath;
 
-        public PlayerForm(Key openKey, FolderEntry rootEntry)
+        public PlayerForm(Key openKey, FolderEntry rootEntry, string rootDirectory)
         {
             InitializeComponent();
             _kListener = new KeyboardListener();
             _kListener.PreventDefault = true;
             _kListener.KeyDown += HookKeyDown;
-            _title = "VGS";
             _open = false;
 
             _openKey = openKey;
             _rootEntry = rootEntry;
-
+            _rootDirectory = rootDirectory;
             HidePlayer();
         }
 
         public void ShowPlayer()
         {
             _currentFolder = _rootEntry;
-            _currentPath = _rootEntry.Path;
+            _currentPath = _rootDirectory;
             RefreshView();
 
             _kListener.PreventDefault = true;
@@ -66,23 +64,23 @@ namespace Shazbot
         {
             labelTitle.Text = _currentFolder.Name;
 
-            IEnumerable<Label> folders = _currentFolder.Entries
-                .Where(kvp => kvp.Value is FolderEntry)
+            IEnumerable<Label> folders = _currentFolder.SubCategories != null ? _currentFolder.SubCategories
                 .Select(kvp => new Label
                 {
-                    Text = $"+ {kvp.Key}: {kvp.Value.Name}",
+                    Text = $"+ {kvp.Key}: {(string.IsNullOrEmpty(kvp.Value.Name) ? kvp.Value.Path : kvp.Value.Name)}",
                     Font = Font,
-                    ForeColor = Color.FromArgb((int)(ForeColor.R * FOLDER_COLOR_MULT), (int)(ForeColor.G * FOLDER_COLOR_MULT), (int)(ForeColor.B * FOLDER_COLOR_MULT))
-                });
+                    ForeColor = Color.FromArgb((int)(ForeColor.R * FOLDER_COLOR_MULT), (int)(ForeColor.G * FOLDER_COLOR_MULT), (int)(ForeColor.B * FOLDER_COLOR_MULT)),
+                    Width = Width
+                }) : Enumerable.Empty<Label>();
 
-            IEnumerable<Label> files = _currentFolder.Entries
-                .Where(kvp => kvp.Value is FileEntry)
+            IEnumerable<Label> files = _currentFolder.Entries != null ? _currentFolder.Entries
                 .Select(kvp => new Label
                 {
-                    Text = $"► {kvp.Key}: {kvp.Value.Name}",
+                    Text = $"► {kvp.Key}: {(string.IsNullOrEmpty(kvp.Value.Name) ? kvp.Value.File : kvp.Value.Name)}",
                     Font = Font,
-                    ForeColor = ForeColor
-                });
+                    ForeColor = ForeColor,
+                    Width = Width
+                }) : Enumerable.Empty<Label>();
 
             int requiredHeight = folders.Sum(x => x.Height) + files.Sum(x => x.Height);
             Height = MIN_HEIGHT + requiredHeight;
@@ -121,22 +119,21 @@ namespace Shazbot
                 return;
             }
 
-            if (!_currentFolder.Entries.ContainsKey(key))
+            if (_currentFolder.SubCategories != null && _currentFolder.SubCategories.ContainsKey(key))
             {
-                return;
-            }
 
-            Entry entry = _currentFolder.Entries[key];
-            if (entry is FolderEntry folder)
-            {
-                _currentFolder = folder;
-                _currentPath = Path.Combine(_currentPath, _currentFolder.Path);
+                FolderEntry entry = _currentFolder.SubCategories[key];
+                _currentFolder = entry;
+                if (!string.IsNullOrEmpty(_currentFolder.Path))
+                {
+                    _currentPath = Path.Combine(_currentPath, _currentFolder.Path);
+                }
                 RefreshView();
                 return;
             }
-            else if (entry is FileEntry file)
+            else if (_currentFolder.Entries != null && _currentFolder.Entries.ContainsKey(key))
             {
-                FileSelected?.Invoke(Path.Combine(_currentPath, file.File));
+                FileSelected?.Invoke(Path.Combine(_currentPath, _currentFolder.Entries[key].File));
                 HidePlayer();
             }
         }
