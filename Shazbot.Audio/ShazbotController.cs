@@ -1,10 +1,13 @@
 ﻿using NAudio.Wave;
+using System;
 using System.Collections.Generic;
 
 namespace Shazbot.Audio
 {
     public class ShazbotController
     {
+        public event Action PlaybackFinished;
+
         private const int SAMPLING_RATE = 44100;
         private const float DEFAULT_VOLUME = 1.0f;
 
@@ -97,6 +100,7 @@ namespace Shazbot.Audio
         public void StopPlayback()
         {
             UnhookOutputDevices();
+            PlaybackFinished?.Invoke();
             _isPlaying = false;
             if (_cachedInputDevice != null) HookInputDevice();
         }

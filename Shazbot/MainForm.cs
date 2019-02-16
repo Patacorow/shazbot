@@ -3,6 +3,7 @@ using Shazbot.Audio;
 using Shazbot.Banks;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -15,6 +16,8 @@ namespace Shazbot
     {
         private const string BTN_START = "Start";
         private const string BTN_STOP = "Stop";
+        private const string PLAYBACK_READY = "Ready";
+        private const string PLAYBACK_PLAYING = "Playing";
 
         private readonly ShazbotController _controller;
         private readonly AudioDeviceInfo[] _inputDevices;
@@ -32,6 +35,7 @@ namespace Shazbot
         {
             InitializeComponent();
             _controller = controller;
+            _controller.PlaybackFinished += _controller_PlaybackFinished;
 
             _inputDevices = Utils.GetInputDevices().ToArray();
             _outputDevices = Utils.GetOutputDevices().ToArray();
@@ -215,7 +219,6 @@ namespace Shazbot
             _controller.AdditionalInputDevice = comboAdditionalInputDevice.SelectedItem as AudioDeviceInfo;
         }
 
-
         private void comboPlayerKey_SelectedIndexChanged(object sender, EventArgs e)
         {
             _playerKey = (Key)comboPlayerKey.SelectedItem;
@@ -335,7 +338,9 @@ namespace Shazbot
                 _player.FileSelected += _player_FileSelected;
                 _player.Show();
                 _controller.Start();
-                audioPlayerTabs.Enabled = false;
+                SetTabsEnabled(false);
+                SetPlaybackLabel(false);
+                labelPlayback.Visible = true;
 
                 btnStart.Text = BTN_STOP;
             }
@@ -344,16 +349,39 @@ namespace Shazbot
                 _started = false;
                 _controller.Stop();
                 _player.Close();
-                audioPlayerTabs.Enabled = true;
+                SetTabsEnabled(true);
+                labelPlayback.Visible = false;
 
                 btnStart.Text = BTN_START;
             }
         }
 
+        private void SetTabsEnabled(bool enabled)
+        {
+            panelTab1.Enabled = enabled;
+            panelTab2.Enabled = enabled;
+            panelTab3.Enabled = enabled;
+        }
+
         private void _player_FileSelected(string file)
         {
             if (!_started) return;
+            SetPlaybackLabel(true);
             _controller.PlaySound(file);
+        }
+
+        private void _controller_PlaybackFinished()
+        {
+            if (_started)
+            {
+                SetPlaybackLabel(false);
+            }
+        }
+
+        private void SetPlaybackLabel(bool isPlaying)
+        {
+            labelPlayback.Text = isPlaying ? PLAYBACK_PLAYING : PLAYBACK_READY;
+            labelPlayback.ForeColor = isPlaying ? Color.Green : ForeColor;
         }
 
         private bool VerifyInput(out string[] errors, out FolderEntry soundbank)
