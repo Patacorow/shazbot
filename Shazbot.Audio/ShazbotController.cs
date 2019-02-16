@@ -6,10 +6,12 @@ namespace Shazbot.Audio
     public class ShazbotController
     {
         private const int SAMPLING_RATE = 44100;
+        private const float DEFAULT_VOLUME = 1.0f;
 
         public AudioDeviceInfo AdditionalInputDevice;
         public AudioDeviceInfo PrimaryOutputDevice;
         public IList<AudioDeviceInfo> AdditionalOutputDevices;
+        public float Volume;
 
         private WaveInEvent _cachedInputDevice;
         private WaveOut _cachedOutputDevice;
@@ -20,6 +22,7 @@ namespace Shazbot.Audio
         public ShazbotController()
         {
             AdditionalOutputDevices = new List<AudioDeviceInfo>();
+            Volume = DEFAULT_VOLUME;
             _cachedAdditionalOutputDevices = new List<WaveOut>();
 
             _isPlaying = false;
@@ -67,13 +70,11 @@ namespace Shazbot.Audio
             UnhookOutputDevices();
             _isPlaying = true;
 
-            WaveStream waveReader = new WaveFileReader(filePath);
-            _cachedOutputDevice = HookOutputDevice(PrimaryOutputDevice.Id, waveReader);
+            _cachedOutputDevice = HookFilePlayback(PrimaryOutputDevice.Id, filePath);
             _cachedOutputDevice.PlaybackStopped += _cachedOutputDevice_PlaybackStopped;
             foreach (AudioDeviceInfo info in AdditionalOutputDevices)
             {
-                WaveStream additionalWaveReader = new WaveFileReader(filePath);
-                _cachedAdditionalOutputDevices.Add(HookOutputDevice(info.Id, additionalWaveReader));
+                _cachedAdditionalOutputDevices.Add(HookFilePlayback(info.Id, filePath));
             }
         }
 
@@ -109,6 +110,12 @@ namespace Shazbot.Audio
             waveOut.Init(provider);
             waveOut.Play();
             return waveOut;
+        }
+
+        private WaveOut HookFilePlayback(int deviceId, string filePath)
+        {
+            WaveStream reader = new AudioFileReader(filePath) { Volume = Volume };
+            return HookOutputDevice(deviceId, reader);
         }
 
         private void UnhookOutputDevices()
