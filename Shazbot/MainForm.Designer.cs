@@ -53,17 +53,22 @@
             this.label6 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.btnStart = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.label9 = new System.Windows.Forms.Label();
+            this.comboPlayerKey = new System.Windows.Forms.ComboBox();
             this.audioPlayerTabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.SuspendLayout();
             // 
             // audioPlayerTabs
             // 
             this.audioPlayerTabs.Controls.Add(this.tabPage1);
+            this.audioPlayerTabs.Controls.Add(this.tabPage4);
             this.audioPlayerTabs.Controls.Add(this.tabPage2);
             this.audioPlayerTabs.Controls.Add(this.tabPage3);
             this.audioPlayerTabs.Location = new System.Drawing.Point(0, 0);
@@ -320,6 +325,38 @@
             this.btnStart.UseVisualStyleBackColor = true;
             this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this.comboPlayerKey);
+            this.tabPage4.Controls.Add(this.label9);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(527, 260);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Player";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label9.Location = new System.Drawing.Point(6, 3);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(102, 13);
+            this.label9.TabIndex = 14;
+            this.label9.Text = "Player open key:";
+            // 
+            // comboPlayerKey
+            // 
+            this.comboPlayerKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPlayerKey.FormattingEnabled = true;
+            this.comboPlayerKey.Location = new System.Drawing.Point(114, 0);
+            this.comboPlayerKey.Name = "comboPlayerKey";
+            this.comboPlayerKey.Size = new System.Drawing.Size(59, 21);
+            this.comboPlayerKey.TabIndex = 15;
+            this.comboPlayerKey.SelectedIndexChanged += new System.EventHandler(this.comboPlayerKey_SelectedIndexChanged);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -342,6 +379,8 @@
             this.tabPage3.ResumeLayout(false);
             this.flowLayoutPanel2.ResumeLayout(false);
             this.flowLayoutPanel2.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -372,5 +411,8 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button btnStart;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox comboPlayerKey;
     }
 }

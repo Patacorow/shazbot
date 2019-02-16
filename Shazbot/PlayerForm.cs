@@ -9,11 +9,20 @@ using System.Windows.Input;
 
 namespace Shazbot
 {
+    public enum PlayerLocation
+    {
+        TopLeft,
+        TopRight,
+        BottomLeft,
+        BottomRight
+    }
+
     // TODO: Refactor & doc
     public partial class PlayerForm : Form
     {
         private const int MIN_HEIGHT = 38;
         private const double FOLDER_COLOR_MULT = 0.8;
+        private const int DISPLAY_MARGIN = 50;
 
         public event Action<string> FileSelected;
 
@@ -21,11 +30,15 @@ namespace Shazbot
         private readonly Key _openKey;
         private readonly FolderEntry _rootEntry;
         private readonly string _rootDirectory;
+        private readonly PlayerLocation _position;
+        private readonly int _displayWidth;
+        private readonly int _displayHeight;
+
         private bool _open;
         private FolderEntry _currentFolder;
         private string _currentPath;
 
-        public PlayerForm(Key openKey, FolderEntry rootEntry, string rootDirectory)
+        public PlayerForm(Key openKey, FolderEntry rootEntry, string rootDirectory, PlayerLocation position)
         {
             InitializeComponent();
             _kListener = new KeyboardListener();
@@ -36,11 +49,19 @@ namespace Shazbot
             _openKey = openKey;
             _rootEntry = rootEntry;
             _rootDirectory = rootDirectory;
+            _position = position;
+
+            // Dimensions
+            Rectangle screenRect = Screen.FromControl(this).Bounds;
+            _displayWidth = screenRect.Width;
+            _displayHeight = screenRect.Height;
+
             HidePlayer();
         }
 
         public void ShowPlayer()
         {
+            if (IsDisposed) return;
             _currentFolder = _rootEntry;
             _currentPath = _rootDirectory;
             RefreshView();
@@ -94,6 +115,33 @@ namespace Shazbot
                 entriesPanel.Controls.Add(label);
 
             entriesPanel.Height = requiredHeight;
+
+            RefreshLocation();
+        }
+
+        private void RefreshLocation()
+        {
+            int x;
+            if (_position == PlayerLocation.TopLeft || _position == PlayerLocation.BottomLeft)
+            {
+                x = DISPLAY_MARGIN;
+            }
+            else
+            {
+                x = _displayWidth - Width - DISPLAY_MARGIN;
+            }
+
+            int y;
+            if (_position == PlayerLocation.TopLeft || _position == PlayerLocation.TopRight)
+            {
+                y = DISPLAY_MARGIN;
+            }
+            else
+            {
+                y = _displayHeight - Height - DISPLAY_MARGIN;
+            }
+
+            Location = new Point(x, y);
         }
 
         private void HookKeyDown(object sender, RawKeyEventArgs args)

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
+using System.Windows.Input;
 
 namespace Shazbot
 {
@@ -20,6 +21,7 @@ namespace Shazbot
         private readonly AudioDeviceInfo[] _outputDevices;
 
         private bool _repopulatingAdditionalOutputDevices;
+        private Key _playerKey;
         private bool _started;
         private PlayerForm _player;
 
@@ -33,6 +35,7 @@ namespace Shazbot
 
             _repopulatingAdditionalOutputDevices = false;
             AddDevices();
+            AddPlayerKeys();
 
             _started = false;
             btnStart.Text = BTN_START;
@@ -81,6 +84,21 @@ namespace Shazbot
             listBoxAdditionalOutputDevices.Items.AddRange(_outputDevices);
             listBoxAdditionalOutputDevices.EndUpdate();
             listBoxAdditionalOutputDevices.Refresh();
+        }
+
+        private void AddPlayerKeys()
+        {
+            foreach (Key key in Enum.GetValues(typeof(Key)))
+            {
+                if ((int)key < 44 || (int)key > 69) continue; // Valid keys (A-Z)
+                comboPlayerKey.Items.Add(key.ToString());
+            }
+            // Add F's
+            for (int i = 1; i <= 12; i++)
+            {
+                comboPlayerKey.Items.Add($"F{i}");
+            }
+            comboPlayerKey.SelectedItem = "V";
         }
 
         private void RepopulateAdditionalOutputDevices(AudioDeviceInfo lastDevice, AudioDeviceInfo newDevice)
@@ -155,6 +173,15 @@ namespace Shazbot
             _controller.AdditionalInputDevice = comboAdditionalInputDevice.SelectedItem as AudioDeviceInfo;
         }
 
+
+        private void comboPlayerKey_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (Enum.TryParse(comboPlayerKey.SelectedItem.ToString(), out Key key))
+            {
+                _playerKey = key;
+            }
+        }
+
         private void btnBrowseSoundbank_Click(object sender, EventArgs e)
         {
             OpenFileDialog diag = new OpenFileDialog
@@ -222,7 +249,7 @@ namespace Shazbot
                 }
 
                 _started = true;
-                _player = new PlayerForm(System.Windows.Input.Key.V, soundbank, Path.GetDirectoryName(textBoxSoundbank.Text));
+                _player = new PlayerForm(_playerKey, soundbank, Path.GetDirectoryName(textBoxSoundbank.Text), PlayerLocation.TopRight);
                 _player.FileSelected += _player_FileSelected;
                 _player.Show();
                 _controller.Start();
