@@ -120,6 +120,7 @@
   <data name="label8.Text" xml:space="preserve">
     <value>This is the root mapping information for all categories and the sounds they contain.
 A single category (folder) may have up to 26 different entries (A-Z), each mapped to and accessed from a single character on the keyboard.
-The JSON file is required to be present inside the Soundbank's root folder, as the location of every file and folder entry is resolved by aggregating the path that the Soundbank file is saved at and the paths of every entry beyond that.</value>
+The JSON file is required to be present inside the Soundbank's root folder, as the location of every file and folder entry is resolved by aggregating the path of the Soundbank and the paths of entries.
+Supported formats are: .wav, .mp3, .aiff, .wma, .aac, .mp4</value>
   </data>
 </root>

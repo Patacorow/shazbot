@@ -8,6 +8,8 @@ namespace Shazbot.Banks
 {
     public static class SoundbankGenerator
     {
+        public static string[] SupportedExtensions = { ".wav", ".mp3", ".aiff", ".wma", ".aac", ".mp4" };
+
         private static Dictionary<Key, FileEntry> _emptyEntries = new Dictionary<Key, FileEntry>();
         private static Dictionary<Key, FolderEntry> _emptySubCats = new Dictionary<Key, FolderEntry>();
 
@@ -24,7 +26,7 @@ namespace Shazbot.Banks
             };
 
             // Add entries
-            foreach (FileInfo file in info.EnumerateFiles("*.wav", SearchOption.TopDirectoryOnly))
+            foreach (FileInfo file in info.GetFiles().Where(file => SupportedExtensions.Any(file.Name.ToLower().EndsWith)))
             {
                 FileEntry subFileEntry  = new FileEntry
                 {

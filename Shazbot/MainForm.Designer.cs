@@ -63,6 +63,10 @@
             this.label13 = new System.Windows.Forms.Label();
             this.comboPlayerScreen = new System.Windows.Forms.ComboBox();
             this.label14 = new System.Windows.Forms.Label();
+            this.labelVolumeText = new System.Windows.Forms.Label();
+            this.barVolume = new System.Windows.Forms.TrackBar();
+            this.labelVolume = new System.Windows.Forms.Label();
+            this.btnRebuildSoundbank = new System.Windows.Forms.Button();
             this.audioPlayerTabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -70,6 +74,7 @@
             this.tabPage3.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
             this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barVolume)).BeginInit();
             this.SuspendLayout();
             // 
             // audioPlayerTabs
@@ -86,6 +91,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.btnRebuildSoundbank);
             this.tabPage1.Controls.Add(this.btnCreateSoundbank);
             this.tabPage1.Controls.Add(this.btnBrowseSoundbank);
             this.tabPage1.Controls.Add(this.textBoxSoundbank);
@@ -101,7 +107,7 @@
             // 
             // btnCreateSoundbank
             // 
-            this.btnCreateSoundbank.Location = new System.Drawing.Point(443, 97);
+            this.btnCreateSoundbank.Location = new System.Drawing.Point(443, 113);
             this.btnCreateSoundbank.Name = "btnCreateSoundbank";
             this.btnCreateSoundbank.Size = new System.Drawing.Size(72, 23);
             this.btnCreateSoundbank.TabIndex = 16;
@@ -112,7 +118,7 @@
             // 
             // btnBrowseSoundbank
             // 
-            this.btnBrowseSoundbank.Location = new System.Drawing.Point(365, 97);
+            this.btnBrowseSoundbank.Location = new System.Drawing.Point(365, 113);
             this.btnBrowseSoundbank.Name = "btnBrowseSoundbank";
             this.btnBrowseSoundbank.Size = new System.Drawing.Size(72, 23);
             this.btnBrowseSoundbank.TabIndex = 1;
@@ -123,7 +129,7 @@
             // 
             // textBoxSoundbank
             // 
-            this.textBoxSoundbank.Location = new System.Drawing.Point(11, 99);
+            this.textBoxSoundbank.Location = new System.Drawing.Point(11, 115);
             this.textBoxSoundbank.Name = "textBoxSoundbank";
             this.textBoxSoundbank.Size = new System.Drawing.Size(348, 20);
             this.textBoxSoundbank.TabIndex = 15;
@@ -132,7 +138,7 @@
             // 
             this.label8.Location = new System.Drawing.Point(8, 16);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(510, 80);
+            this.label8.Size = new System.Drawing.Size(510, 82);
             this.label8.TabIndex = 14;
             this.label8.Text = resources.GetString("label8.Text");
             // 
@@ -437,11 +443,56 @@
             this.label14.TabIndex = 20;
             this.label14.Text = "Display:";
             // 
+            // labelVolumeText
+            // 
+            this.labelVolumeText.AutoSize = true;
+            this.labelVolumeText.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.labelVolumeText.Location = new System.Drawing.Point(12, 293);
+            this.labelVolumeText.Name = "labelVolumeText";
+            this.labelVolumeText.Size = new System.Drawing.Size(91, 13);
+            this.labelVolumeText.TabIndex = 23;
+            this.labelVolumeText.Text = "Sound volume:";
+            // 
+            // barVolume
+            // 
+            this.barVolume.AutoSize = false;
+            this.barVolume.LargeChange = 10;
+            this.barVolume.Location = new System.Drawing.Point(99, 291);
+            this.barVolume.Maximum = 100;
+            this.barVolume.Name = "barVolume";
+            this.barVolume.Size = new System.Drawing.Size(206, 19);
+            this.barVolume.TabIndex = 24;
+            this.barVolume.TickFrequency = 25;
+            this.barVolume.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.barVolume.ValueChanged += new System.EventHandler(this.barVolume_ValueChanged);
+            // 
+            // labelVolume
+            // 
+            this.labelVolume.AutoSize = true;
+            this.labelVolume.Location = new System.Drawing.Point(302, 293);
+            this.labelVolume.Name = "labelVolume";
+            this.labelVolume.Size = new System.Drawing.Size(22, 13);
+            this.labelVolume.TabIndex = 25;
+            this.labelVolume.Text = "X%";
+            // 
+            // btnRebuildSoundbank
+            // 
+            this.btnRebuildSoundbank.Location = new System.Drawing.Point(11, 141);
+            this.btnRebuildSoundbank.Name = "btnRebuildSoundbank";
+            this.btnRebuildSoundbank.Size = new System.Drawing.Size(72, 23);
+            this.btnRebuildSoundbank.TabIndex = 17;
+            this.btnRebuildSoundbank.Text = "Rebuild";
+            this.btnRebuildSoundbank.UseVisualStyleBackColor = true;
+            this.btnRebuildSoundbank.Click += new System.EventHandler(this.btnRebuildSoundbank_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(534, 319);
+            this.Controls.Add(this.labelVolumeText);
+            this.Controls.Add(this.labelVolume);
+            this.Controls.Add(this.barVolume);
             this.Controls.Add(this.btnStart);
             this.Controls.Add(this.audioPlayerTabs);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -461,7 +512,9 @@
             this.flowLayoutPanel2.PerformLayout();
             this.tabPage4.ResumeLayout(false);
             this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.barVolume)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -501,5 +554,9 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.ComboBox comboPlayerScreen;
         private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label labelVolumeText;
+        private System.Windows.Forms.TrackBar barVolume;
+        private System.Windows.Forms.Label labelVolume;
+        private System.Windows.Forms.Button btnRebuildSoundbank;
     }
 }

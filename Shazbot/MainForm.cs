@@ -37,13 +37,19 @@ namespace Shazbot
             _outputDevices = Utils.GetOutputDevices().ToArray();
 
             _repopulatingAdditionalOutputDevices = false;
+            InitializePlayerControls();
+
+            _started = false;
+            btnStart.Text = BTN_START;
+        }
+
+        private void InitializePlayerControls()
+        {
             AddDevices();
             AddPlayerKeys();
             AddPlayerLocations();
             AddPlayerScreens();
-
-            _started = false;
-            btnStart.Text = BTN_START;
+            barVolume.Value = barVolume.Maximum;
         }
 
         private void AddDevices()
@@ -127,6 +133,14 @@ namespace Shazbot
                     comboPlayerScreen.Items[i] += " (Primary)";
                 }
             }
+        }
+
+        private void barVolume_ValueChanged(object sender, EventArgs e)
+        {
+            float volume = barVolume.Value / (float)barVolume.Maximum;
+            _controller.Volume = volume;
+            labelVolume.Text = volume.ToString("P0");
+            if (volume == 0f) labelVolume.Text += " (why?)";
         }
 
         private void RepopulateAdditionalOutputDevices(AudioDeviceInfo lastDevice, AudioDeviceInfo newDevice)
@@ -249,13 +263,46 @@ namespace Shazbot
             };
             if (nDiag.ShowDialog() != DialogResult.OK) return;
 
+            if (CreateAndSaveSoundbank(path, nDiag.SoundbankName))
+            {
+                MessageBox.Show("Your Soundbank has been created and saved to:\n" + textBoxSoundbank.Text, "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void btnRebuildSoundbank_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("This action will rebuild the Soundbank at the specified path while treating its directory as the root, " +
+                "and is intended for automatically created Soundbanks.\n" +
+                "Any custom bindings, entries or categories specified in the bank will be gone.\n\nContinue?", "Rebuild", MessageBoxButtons.OKCancel, MessageBoxIcon.Warning)
+                == DialogResult.Cancel) return;
+
+            FolderEntry oldBank;
+            try
+            {
+                // Get soundbank first
+                oldBank = LoadSoundbank();
+
+                // Rebuild
+                CreateAndSaveSoundbank(Path.GetDirectoryName(textBoxSoundbank.Text), oldBank.Name);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("The Rebuild operation failed!\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            MessageBox.Show($"Soundbank '{oldBank.Name}' rebuilt successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private bool CreateAndSaveSoundbank(string path, string name)
+        {
             // Get path to save in
-            string fileName = Path.Combine(path, nDiag.SoundbankName.ToLower() + ".json");
+            string fileName = Path.Combine(path, name.ToLower() + ".json");
 
             // Generate soundbank
             try
             {
-                FolderEntry bank = SoundbankGenerator.CreateSoundbank(path, nDiag.SoundbankName);
+                FolderEntry bank = SoundbankGenerator.CreateSoundbank(path, name);
 
                 // Save it
                 string json = SoundbankSerializer.Serialize(bank);
@@ -264,11 +311,11 @@ namespace Shazbot
             catch (Exception ex)
             {
                 MessageBox.Show("Cannot create Soundbank!\n" + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                return false;
             }
 
             textBoxSoundbank.Text = fileName;
-            MessageBox.Show("Your Soundbank has been created and saved to:\n" + Path.Combine(path, fileName), "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return true;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -336,18 +383,22 @@ namespace Shazbot
             {
                 try
                 {
-                    soundbank = SoundbankSerializer.Deserialize(File.ReadAllText(textBoxSoundbank.Text));
+                    soundbank = LoadSoundbank();
                 }
                 catch (Exception ex)
                 {
-                    throw;
-                    //addError("Cannot read soundbank file: " + ex.Message);
+                    addError("Cannot read soundbank file: " + ex.Message);
                 }
             }
 
 
             errors = errorList.ToArray();
             return success;
+        }
+
+        private FolderEntry LoadSoundbank()
+        {
+            return SoundbankSerializer.Deserialize(File.ReadAllText(textBoxSoundbank.Text));
         }
     }
 }
