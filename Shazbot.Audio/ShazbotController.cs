@@ -8,22 +8,38 @@ namespace Shazbot.Audio
         private const int SAMPLING_RATE = 44100;
         private const float DEFAULT_VOLUME = 1.0f;
 
+        public float Volume
+        {
+            get => _volume;
+            set
+            {
+                _volume = value;
+                // Update active readers
+                foreach (AudioFileReader reader in _activeReaders)
+                {
+                    reader.Volume = _volume;
+                }
+            }
+        }
+
         public AudioDeviceInfo AdditionalInputDevice;
         public AudioDeviceInfo PrimaryOutputDevice;
         public IList<AudioDeviceInfo> AdditionalOutputDevices;
-        public float Volume;
 
         private WaveInEvent _cachedInputDevice;
         private WaveOut _cachedOutputDevice;
         private IList<WaveOut> _cachedAdditionalOutputDevices;
         private BufferedWaveProvider _cachedInputProvider;
         private bool _isPlaying;
+        private float _volume;
+        private IList<AudioFileReader> _activeReaders;
 
         public ShazbotController()
         {
             AdditionalOutputDevices = new List<AudioDeviceInfo>();
-            Volume = DEFAULT_VOLUME;
+            _volume = DEFAULT_VOLUME;
             _cachedAdditionalOutputDevices = new List<WaveOut>();
+            _activeReaders = new List<AudioFileReader>();
 
             _isPlaying = false;
         }
@@ -114,12 +130,14 @@ namespace Shazbot.Audio
 
         private WaveOut HookFilePlayback(int deviceId, string filePath)
         {
-            WaveStream reader = new AudioFileReader(filePath) { Volume = Volume };
+            AudioFileReader reader = new AudioFileReader(filePath) { Volume = _volume };
+            _activeReaders.Add(reader);
             return HookOutputDevice(deviceId, reader);
         }
 
         private void UnhookOutputDevices()
         {
+            _activeReaders.Clear();
             UnhookOutputDevice(_cachedOutputDevice);
             _cachedOutputDevice = null;
             foreach (WaveOut waveOut in _cachedAdditionalOutputDevices)
