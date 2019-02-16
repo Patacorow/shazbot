@@ -58,7 +58,7 @@ namespace Shazbot.Audio
                     WaveFormat = new WaveFormat(SAMPLING_RATE, 1)
                 };
 
-                var waveProvider = new BufferedWaveProvider(waveIn.WaveFormat);
+                var waveProvider = new BufferedWaveProvider(waveIn.WaveFormat) { DiscardOnBufferOverflow = true };
                 _cachedInputProvider = waveProvider;
                 HookInputDevice();
 
