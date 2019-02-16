@@ -31,14 +31,13 @@ namespace Shazbot
         private readonly FolderEntry _rootEntry;
         private readonly string _rootDirectory;
         private readonly PlayerLocation _position;
-        private readonly int _displayWidth;
-        private readonly int _displayHeight;
+        private readonly Rectangle _screenRectangle;
 
         private bool _open;
         private FolderEntry _currentFolder;
         private string _currentPath;
 
-        public PlayerForm(Key openKey, FolderEntry rootEntry, string rootDirectory, PlayerLocation position)
+        public PlayerForm(Key openKey, FolderEntry rootEntry, string rootDirectory, PlayerLocation position, Screen screen)
         {
             InitializeComponent();
             _kListener = new KeyboardListener();
@@ -52,9 +51,7 @@ namespace Shazbot
             _position = position;
 
             // Dimensions
-            Rectangle screenRect = Screen.FromControl(this).Bounds;
-            _displayWidth = screenRect.Width;
-            _displayHeight = screenRect.Height;
+            _screenRectangle = screen.Bounds;
 
             HidePlayer();
         }
@@ -121,24 +118,24 @@ namespace Shazbot
 
         private void RefreshLocation()
         {
-            int x;
+            int x = _screenRectangle.Left;
             if (_position == PlayerLocation.TopLeft || _position == PlayerLocation.BottomLeft)
             {
-                x = DISPLAY_MARGIN;
+                x += DISPLAY_MARGIN;
             }
             else
             {
-                x = _displayWidth - Width - DISPLAY_MARGIN;
+                x += _screenRectangle.Width - Width - DISPLAY_MARGIN;
             }
 
-            int y;
+            int y = _screenRectangle.Top;
             if (_position == PlayerLocation.TopLeft || _position == PlayerLocation.TopRight)
             {
-                y = DISPLAY_MARGIN;
+                y += DISPLAY_MARGIN;
             }
             else
             {
-                y = _displayHeight - Height - DISPLAY_MARGIN;
+                y += _screenRectangle.Height - Height - DISPLAY_MARGIN;
             }
 
             Location = new Point(x, y);

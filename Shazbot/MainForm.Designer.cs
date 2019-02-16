@@ -56,6 +56,13 @@
             this.tabPage4 = new System.Windows.Forms.TabPage();
             this.label9 = new System.Windows.Forms.Label();
             this.comboPlayerKey = new System.Windows.Forms.ComboBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.comboPlayerLocation = new System.Windows.Forms.ComboBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.comboPlayerScreen = new System.Windows.Forms.ComboBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.audioPlayerTabs.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -327,8 +334,15 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.label13);
+            this.tabPage4.Controls.Add(this.comboPlayerScreen);
+            this.tabPage4.Controls.Add(this.label14);
+            this.tabPage4.Controls.Add(this.label12);
+            this.tabPage4.Controls.Add(this.comboPlayerLocation);
+            this.tabPage4.Controls.Add(this.label11);
             this.tabPage4.Controls.Add(this.comboPlayerKey);
             this.tabPage4.Controls.Add(this.label9);
+            this.tabPage4.Controls.Add(this.label10);
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
             this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
@@ -341,21 +355,87 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
-            this.label9.Location = new System.Drawing.Point(6, 3);
+            this.label9.Location = new System.Drawing.Point(8, 5);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(102, 13);
+            this.label9.Size = new System.Drawing.Size(65, 13);
             this.label9.TabIndex = 14;
-            this.label9.Text = "Player open key:";
+            this.label9.Text = "Open key:";
             // 
             // comboPlayerKey
             // 
             this.comboPlayerKey.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboPlayerKey.FormattingEnabled = true;
-            this.comboPlayerKey.Location = new System.Drawing.Point(114, 0);
+            this.comboPlayerKey.Location = new System.Drawing.Point(79, 2);
             this.comboPlayerKey.Name = "comboPlayerKey";
-            this.comboPlayerKey.Size = new System.Drawing.Size(59, 21);
+            this.comboPlayerKey.Size = new System.Drawing.Size(162, 21);
             this.comboPlayerKey.TabIndex = 15;
             this.comboPlayerKey.SelectedIndexChanged += new System.EventHandler(this.comboPlayerKey_SelectedIndexChanged);
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(8, 26);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(510, 27);
+            this.label10.TabIndex = 16;
+            this.label10.Text = "Upon being pressed, this key will cause the Player window to appear. Note that in" +
+    "put to all other programs is prevented until a sound is selected or ESC is press" +
+    "ed.";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label11.Location = new System.Drawing.Point(8, 64);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(60, 13);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "Location:";
+            // 
+            // comboPlayerLocation
+            // 
+            this.comboPlayerLocation.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPlayerLocation.FormattingEnabled = true;
+            this.comboPlayerLocation.Location = new System.Drawing.Point(74, 61);
+            this.comboPlayerLocation.Name = "comboPlayerLocation";
+            this.comboPlayerLocation.Size = new System.Drawing.Size(100, 21);
+            this.comboPlayerLocation.TabIndex = 18;
+            this.comboPlayerLocation.SelectedIndexChanged += new System.EventHandler(this.comboPlayerLocation_SelectedIndexChanged);
+            // 
+            // label12
+            // 
+            this.label12.Location = new System.Drawing.Point(8, 85);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(510, 14);
+            this.label12.TabIndex = 19;
+            this.label12.Text = "The location of the player relative to the screen it\'s in.";
+            // 
+            // label13
+            // 
+            this.label13.Location = new System.Drawing.Point(8, 134);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(510, 14);
+            this.label13.TabIndex = 22;
+            this.label13.Text = "The screen to position the player in.";
+            // 
+            // comboPlayerScreen
+            // 
+            this.comboPlayerScreen.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboPlayerScreen.FormattingEnabled = true;
+            this.comboPlayerScreen.Location = new System.Drawing.Point(65, 110);
+            this.comboPlayerScreen.Name = "comboPlayerScreen";
+            this.comboPlayerScreen.Size = new System.Drawing.Size(124, 21);
+            this.comboPlayerScreen.TabIndex = 21;
+            this.comboPlayerScreen.SelectedIndexChanged += new System.EventHandler(this.comboPlayerScreen_SelectedIndexChanged);
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(177)));
+            this.label14.Location = new System.Drawing.Point(8, 113);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(52, 13);
+            this.label14.TabIndex = 20;
+            this.label14.Text = "Display:";
             // 
             // MainForm
             // 
@@ -414,5 +494,12 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.ComboBox comboPlayerKey;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.ComboBox comboPlayerLocation;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.ComboBox comboPlayerScreen;
+        private System.Windows.Forms.Label label14;
     }
 }

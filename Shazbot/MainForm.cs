@@ -22,6 +22,9 @@ namespace Shazbot
 
         private bool _repopulatingAdditionalOutputDevices;
         private Key _playerKey;
+        private PlayerLocation _playerLocation;
+        private Screen _playerScreen;
+        private bool _playerPreventInput;
         private bool _started;
         private PlayerForm _player;
 
@@ -36,6 +39,8 @@ namespace Shazbot
             _repopulatingAdditionalOutputDevices = false;
             AddDevices();
             AddPlayerKeys();
+            AddPlayerLocations();
+            AddPlayerScreens();
 
             _started = false;
             btnStart.Text = BTN_START;
@@ -90,15 +95,38 @@ namespace Shazbot
         {
             foreach (Key key in Enum.GetValues(typeof(Key)))
             {
-                if ((int)key < 44 || (int)key > 69) continue; // Valid keys (A-Z)
-                comboPlayerKey.Items.Add(key.ToString());
+                if (key == Key.None || key == Key.NoName || key == Key.DeadCharProcessed || key == Key.Sleep) continue;
+                if (comboPlayerKey.Items.Contains(key)) continue;
+                comboPlayerKey.Items.Add(key);
             }
-            // Add F's
-            for (int i = 1; i <= 12; i++)
+            comboPlayerKey.SelectedItem = Key.V;
+        }
+
+        private void AddPlayerLocations()
+        {
+            foreach (PlayerLocation location in Enum.GetValues(typeof(PlayerLocation)))
             {
-                comboPlayerKey.Items.Add($"F{i}");
+                comboPlayerLocation.Items.Add(location);
             }
-            comboPlayerKey.SelectedItem = "V";
+
+            comboPlayerLocation.SelectedItem = PlayerLocation.TopRight;
+        }
+
+        private void AddPlayerScreens()
+        {
+            for (int i = 0; i < Screen.AllScreens.Length; i++)
+            {
+                Screen screen = Screen.AllScreens[i];
+                string name = $"Display {i+1}";
+                
+                comboPlayerScreen.Items.Add(name);
+                // Select if primary
+                if (screen.Primary)
+                {
+                    comboPlayerScreen.SelectedIndex = i;
+                    comboPlayerScreen.Items[i] += " (Primary)";
+                }
+            }
         }
 
         private void RepopulateAdditionalOutputDevices(AudioDeviceInfo lastDevice, AudioDeviceInfo newDevice)
@@ -176,10 +204,17 @@ namespace Shazbot
 
         private void comboPlayerKey_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (Enum.TryParse(comboPlayerKey.SelectedItem.ToString(), out Key key))
-            {
-                _playerKey = key;
-            }
+            _playerKey = (Key)comboPlayerKey.SelectedItem;
+        }
+
+        private void comboPlayerLocation_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _playerLocation = (PlayerLocation)comboPlayerLocation.SelectedItem;
+        }
+
+        private void comboPlayerScreen_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _playerScreen = Screen.AllScreens[comboPlayerScreen.SelectedIndex];
         }
 
         private void btnBrowseSoundbank_Click(object sender, EventArgs e)
@@ -249,7 +284,7 @@ namespace Shazbot
                 }
 
                 _started = true;
-                _player = new PlayerForm(_playerKey, soundbank, Path.GetDirectoryName(textBoxSoundbank.Text), PlayerLocation.TopRight);
+                _player = new PlayerForm(_playerKey, soundbank, Path.GetDirectoryName(textBoxSoundbank.Text), _playerLocation, _playerScreen);
                 _player.FileSelected += _player_FileSelected;
                 _player.Show();
                 _controller.Start();
