@@ -18,22 +18,15 @@ namespace Shazbot
         {
             PreventDefault = false;
             _keyProcDelegate = HookCallback;
+            GC.KeepAlive(_keyProcDelegate);
             _hookId = InterceptKeys.SetHook(_keyProcDelegate);
         }
-
+        
         [MethodImpl(MethodImplOptions.NoInlining)]
         private IntPtr HookCallback(
             int nCode, IntPtr wParam, IntPtr lParam)
         {
-            //try
-            //{
-                return HookCallbackInner(nCode, wParam, lParam);
-            //}
-            //catch
-            //{
-            //    Console.WriteLine("There was some error somewhere...");
-            //}
-            //return InterceptKeys.CallNextHookEx(_hookId, nCode, wParam, lParam);
+            return HookCallbackInner(nCode, wParam, lParam);
         }
 
         private IntPtr HookCallbackInner(int nCode, IntPtr wParam, IntPtr lParam)
